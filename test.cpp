@@ -81,12 +81,12 @@ calloc(size_t num, size_t size) {
 /*
  * Test for class MyClass.
  */
-
+/*
 struct MyClass {
     int id;
     char name[10];
 };
-
+*/
 bool
 MyClass_less_by_id(const MyClass &o1, const MyClass &o2) {
     return o1.id < o2.id;
@@ -151,13 +151,15 @@ main() {
         assert(deq.back(&deq).id == 2);
 
         assert(deq.size(&deq) == 3);
-
+        /*
         for (Deque_MyClass_Iterator it = deq.begin(&deq);
          !Deque_MyClass_Iterator_equal(it, deq.end(&deq)); it.inc(&it)) {
             MyClass_print(&it.deref(&it));
         }
-
+        */
+        
         // Multiple iterators?
+        /*
         for (Deque_MyClass_Iterator it1 = deq.begin(&deq);
          !Deque_MyClass_Iterator_equal(it1, deq.end(&deq)); it1.inc(&it1)) {
             MyClass_print(&it1.deref(&it1));
@@ -170,21 +172,25 @@ main() {
                 }
             }
         }
-
+        */
         // Test decrement of end.
+        /*
         {
             auto it = deq.end(&deq);
             it.dec(&it);
             assert(it.deref(&it).id == 2);
         }
-
+        */
+        
         // printf("Using at.\n");
-
+        /*
         for (size_t i = 0; i < 3; i++) {
             MyClass_print(&deq.at(&deq, i));
         }
-
+        */
+        
         // Test that front(), back(), at(), and deref() are returning a reference.
+        /*
         // Change via at().
         assert(deq.at(&deq, 0).id == 0);
         deq.at(&deq, 0).id = 100;
@@ -206,11 +212,11 @@ main() {
             assert(deq.back(&deq).id == 2);
             assert(it.deref(&it).id == 2); // Verify with iterator also.
         }
-
+        */
         deq.clear(&deq);
 
         deq.dtor(&deq);
-
+        /*    
         // Test equality.  Two deques compare equal if they are of the same
         // length and all the elements compare equal.  It is undefined behavior
         // if the two deques were constructed with different comparison
@@ -238,9 +244,9 @@ main() {
             deq1.dtor(&deq1);
             deq2.dtor(&deq2);
         }
-
+        */
     }
-
+    /*
     // Test that it can handle other types.  Tests are the same, more or less.
     {
         Deque_int deq;
@@ -294,7 +300,8 @@ main() {
 
         deq.dtor(&deq);
     }
-
+    */
+    /*
     // Test equality.  It is undefined behavior if the two deques were constructed with different
     // comparison functions.
     {
@@ -319,7 +326,8 @@ main() {
         deq1.dtor(&deq1);
         deq2.dtor(&deq2);
     }
-
+    */
+    /*
     // Test performance.
     {
         std::default_random_engine e;
@@ -379,7 +387,8 @@ main() {
         printf("%d push_backs, %d push_fronts, %d pop_backs, %d pop_fronts, %d size\n", pb, pf, pob, pof, (int) deq.size(&deq));
         deq.dtor(&deq);
     }
-
+    */
+    /*
     // Test random access performance
     {
        size_t sum = 0;
@@ -397,7 +406,8 @@ main() {
        printf("Sum of all integers between %d and %d calculated using a deque is %lu.\n", lo, hi, sum);
        deq.dtor(&deq);
     }
-
+    */
+    /*
     // Test sort.
     // You must be able to work with the correct less-than function.
     {
@@ -414,8 +424,8 @@ main() {
 
         deq.dtor(&deq);
     }
-
-
+    */
+    /*
     // Sorting Test 2
     {
        Deque_int deq1;
@@ -454,7 +464,8 @@ main() {
       deq1.dtor(&deq1);
       deq2.dtor(&deq2);
     }
-
+    */
+    /*
     // Test sort with different comparators.
     {
         Deque_MyClass sort_by_id, sorted_by_id;
@@ -496,7 +507,8 @@ main() {
         sort_by_name.dtor(&sort_by_name);
         sorted_by_name.dtor(&sorted_by_name);
     }
-
+    */
+    /*
     // Performance testing for sorting
     {
       
@@ -525,6 +537,7 @@ main() {
        deq1.dtor(&deq1);
 
     }
+    */
 
    // Print allocation info
    printf("%ld allocations totalling %ld bytes\n", alloc_call_count, total_bytes_allocated);
