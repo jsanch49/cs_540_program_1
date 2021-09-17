@@ -12,7 +12,7 @@
 #include <string.h>
 #include <algorithm>
 #include <typeinfo>
-#include "Deque.hpp"
+#include "Deque_cpp.hpp"
 
 // May assume memcpy()-able.
 // May assume = operator.
@@ -236,6 +236,7 @@ main() {
         }
     }
     // Test that it can handle other types.  Tests are the same, more or less.
+    /*
     {
         Deque_int deq;
         Deque_int_ctor(&deq, int_less);
@@ -285,9 +286,10 @@ main() {
 
         deq.dtor(&deq);
     }
-    
+    */
     // Test equality.  It is undefined behavior if the two deques were constructed with different
     // comparison functions.
+    /*
     {
         Deque_int deq1, deq2;
         Deque_int_ctor(&deq1, int_less);
@@ -310,6 +312,7 @@ main() {
         deq1.dtor(&deq1);
         deq2.dtor(&deq2);
     }
+    */
     // Test performance.
     /*
     {
@@ -444,7 +447,6 @@ main() {
       deq2.dtor(&deq2);
     }
     */
-    /*
     // Test sort with different comparators.
     {
         Deque_MyClass sort_by_id, sorted_by_id;
@@ -472,7 +474,8 @@ main() {
         sorted_by_name.push_back(&sorted_by_name, MyClass{2, "Alex"});
         sorted_by_name.push_back(&sorted_by_name, MyClass{1, "Bob"});
         sorted_by_name.push_back(&sorted_by_name, MyClass{3, "Sheldon"});
-
+        // uncomment next
+        /*
         assert(!Deque_MyClass_equal(sort_by_id, sorted_by_id));
         sort_by_id.sort(&sort_by_id, sort_by_id.begin(&sort_by_id), sort_by_id.end(&sort_by_id));
         assert(Deque_MyClass_equal(sort_by_id, sorted_by_id));
@@ -480,13 +483,12 @@ main() {
         assert(!Deque_MyClass_equal(sort_by_name, sorted_by_name));
         sort_by_name.sort(&sort_by_name, sort_by_name.begin(&sort_by_name), sort_by_name.end(&sort_by_name));
         assert(Deque_MyClass_equal(sort_by_name, sorted_by_name));
-
+        */
         sort_by_id.dtor(&sort_by_id);
         sorted_by_id.dtor(&sorted_by_id);
         sort_by_name.dtor(&sort_by_name);
         sorted_by_name.dtor(&sorted_by_name);
     }
-    */
     /*
     // Performance testing for sorting
     {

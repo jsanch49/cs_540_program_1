@@ -29,11 +29,11 @@ struct Deque_MyClass {
     MyClass & (*front)(Deque_MyClass *);
     MyClass & (*back)(Deque_MyClass *);
     MyClass & (*at)(Deque_MyClass *, size_t);
+    bool (*comp)(const MyClass &, const MyClass &);
     void (*pop_front)(Deque_MyClass *);
     void (*pop_back)(Deque_MyClass *);
     void (*clear)(Deque_MyClass *);
     void (*dtor)(Deque_MyClass *);
-    // new
     Deque_MyClass_Iterator (*begin)(Deque_MyClass *);
     Deque_MyClass_Iterator (*end)(Deque_MyClass *);
     char type_name[14];
@@ -43,8 +43,6 @@ struct Deque_MyClass {
     size_t capacity;
     bool is_empty;
 };
-
-// new
 
 void Deque_MyClass_Iterator_inc(Deque_MyClass_Iterator * cl) {
     if(cl->idx == cl->capacity - 1) cl->idx = 0;
@@ -222,7 +220,7 @@ void Deque_MyClass_ctor(Deque_MyClass * cl, bool (*comp)(const MyClass &, const 
     cl->pop_front = Deque_MyClass_pop_front;
     cl->dtor = Deque_MyClass_dtor;
     cl->clear = Deque_MyClass_clear;
-    //new
+    cl->comp = comp;
     cl->begin = Deque_MyClass_begin;
     cl->end = Deque_MyClass_end;
     strcpy(cl->type_name, "Deque_" "MyClass");
@@ -232,6 +230,17 @@ void Deque_MyClass_ctor(Deque_MyClass * cl, bool (*comp)(const MyClass &, const 
     cl->is_empty = true;
 }
 
-// new
+bool Deque_MyClass_equal(Deque_MyClass & o1, Deque_MyClass & o2) {
+    if (o1.size(&o1) != o2.size(&o2)) return false;
+    auto itr1 = o1.begin(&o1);
+    auto itr2 = o2.begin(&o2);
+    for (size_t i = 0; i < o1.size(&o1); i++) {
+        if (o1.comp(itr1.deref(&itr1), itr2.deref(&itr2)) || 
+            o1.comp(itr2.deref(&itr2), itr1.deref(&itr1))) return false;
+        itr1.inc(&itr1);
+        itr2.inc(&itr2);
+    }
+    return true;
+}
 
 #endif
