@@ -151,15 +151,12 @@ main() {
         assert(deq.back(&deq).id == 2);
 
         assert(deq.size(&deq) == 3);
-        /*
         for (Deque_MyClass_Iterator it = deq.begin(&deq);
          !Deque_MyClass_Iterator_equal(it, deq.end(&deq)); it.inc(&it)) {
             MyClass_print(&it.deref(&it));
         }
-        */
         
         // Multiple iterators?
-        /*
         for (Deque_MyClass_Iterator it1 = deq.begin(&deq);
          !Deque_MyClass_Iterator_equal(it1, deq.end(&deq)); it1.inc(&it1)) {
             MyClass_print(&it1.deref(&it1));
@@ -172,15 +169,12 @@ main() {
                 }
             }
         }
-        */
         // Test decrement of end.
-        /*
         {
             auto it = deq.end(&deq);
             it.dec(&it);
             assert(it.deref(&it).id == 2);
         }
-        */
         
         // printf("Using at.\n");
         for (size_t i = 0; i < 3; i++) {
@@ -198,7 +192,6 @@ main() {
         deq.front(&deq).id = 0;
         assert(deq.front(&deq).id == 0);
         assert(deq.at(&deq, 0).id == 0); // Verify with at() also.
-        /*
         {
             auto it = deq.end(&deq);
             it.dec(&it);
@@ -211,11 +204,9 @@ main() {
             assert(deq.back(&deq).id == 2);
             assert(it.deref(&it).id == 2); // Verify with iterator also.
         }
-        */
         deq.clear(&deq);
 
         deq.dtor(&deq);
-        /*    
         // Test equality.  Two deques compare equal if they are of the same
         // length and all the elements compare equal.  It is undefined behavior
         // if the two deques were constructed with different comparison
@@ -243,7 +234,6 @@ main() {
             deq1.dtor(&deq1);
             deq2.dtor(&deq2);
         }
-        */
     }
     // Test that it can handle other types.  Tests are the same, more or less.
     {
@@ -275,20 +265,16 @@ main() {
         assert(deq.back(&deq) == 2);
 
         assert(deq.size(&deq) == 3);
-        /*
         for (Deque_int_Iterator it = deq.begin(&deq);
          !Deque_int_Iterator_equal(it, deq.end(&deq)); it.inc(&it)) {
             printf("%d\n", it.deref(&it));
         }
-        */
         // Test decrement.
-        /*
         {
             auto it = deq.end(&deq);
             it.dec(&it);
             assert(it.deref(&it) == 2);
         }
-        */
         // printf("Using at.\n");
 
         for (size_t i = 0; i < 3; i++) {
@@ -300,7 +286,6 @@ main() {
         deq.dtor(&deq);
     }
     
-    /*
     // Test equality.  It is undefined behavior if the two deques were constructed with different
     // comparison functions.
     {
@@ -325,8 +310,8 @@ main() {
         deq1.dtor(&deq1);
         deq2.dtor(&deq2);
     }
-    */
     // Test performance.
+    /*
     {
         std::default_random_engine e;
         using rand = std::uniform_int_distribution<int>;
@@ -402,9 +387,10 @@ main() {
        printf("Sum of all integers between %d and %d calculated using a deque is %lu.\n", lo, hi, sum);
        deq.dtor(&deq);
     }
-    /*
+    */
     // Test sort.
     // You must be able to work with the correct less-than function.
+    /*
     {
         Deque_int deq;
         Deque_int_ctor(&deq, int_less);
@@ -419,8 +405,6 @@ main() {
 
         deq.dtor(&deq);
     }
-    */
-    /*
     // Sorting Test 2
     {
        Deque_int deq1;
