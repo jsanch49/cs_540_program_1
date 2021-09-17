@@ -103,7 +103,7 @@ MyClass_print(const MyClass *o) {
     printf("%s\n", o->name);
 }
 
-Deque_DEFINE(MyClass)
+//Deque_DEFINE(MyClass)
 
 /*
  * Test for int.
@@ -183,14 +183,12 @@ main() {
         */
         
         // printf("Using at.\n");
-        /*
         for (size_t i = 0; i < 3; i++) {
-            MyClass_print(&deq.at(&deq, i));
+            MyClass_print(
+                &deq.at(&deq, i));
         }
-        */
         
         // Test that front(), back(), at(), and deref() are returning a reference.
-        /*
         // Change via at().
         assert(deq.at(&deq, 0).id == 0);
         deq.at(&deq, 0).id = 100;
@@ -200,6 +198,7 @@ main() {
         deq.front(&deq).id = 0;
         assert(deq.front(&deq).id == 0);
         assert(deq.at(&deq, 0).id == 0); // Verify with at() also.
+        /*
         {
             auto it = deq.end(&deq);
             it.dec(&it);
@@ -246,7 +245,6 @@ main() {
         }
         */
     }
-    /*
     // Test that it can handle other types.  Tests are the same, more or less.
     {
         Deque_int deq;
@@ -277,19 +275,20 @@ main() {
         assert(deq.back(&deq) == 2);
 
         assert(deq.size(&deq) == 3);
-
+        /*
         for (Deque_int_Iterator it = deq.begin(&deq);
          !Deque_int_Iterator_equal(it, deq.end(&deq)); it.inc(&it)) {
             printf("%d\n", it.deref(&it));
         }
-
+        */
         // Test decrement.
+        /*
         {
             auto it = deq.end(&deq);
             it.dec(&it);
             assert(it.deref(&it) == 2);
         }
-
+        */
         // printf("Using at.\n");
 
         for (size_t i = 0; i < 3; i++) {
@@ -300,7 +299,7 @@ main() {
 
         deq.dtor(&deq);
     }
-    */
+    
     /*
     // Test equality.  It is undefined behavior if the two deques were constructed with different
     // comparison functions.
@@ -327,7 +326,6 @@ main() {
         deq2.dtor(&deq2);
     }
     */
-    /*
     // Test performance.
     {
         std::default_random_engine e;
@@ -387,8 +385,6 @@ main() {
         printf("%d push_backs, %d push_fronts, %d pop_backs, %d pop_fronts, %d size\n", pb, pf, pob, pof, (int) deq.size(&deq));
         deq.dtor(&deq);
     }
-    */
-    /*
     // Test random access performance
     {
        size_t sum = 0;
@@ -406,7 +402,6 @@ main() {
        printf("Sum of all integers between %d and %d calculated using a deque is %lu.\n", lo, hi, sum);
        deq.dtor(&deq);
     }
-    */
     /*
     // Test sort.
     // You must be able to work with the correct less-than function.
