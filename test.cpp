@@ -81,12 +81,12 @@ calloc(size_t num, size_t size) {
 /*
  * Test for class MyClass.
  */
-/*
+
 struct MyClass {
     int id;
     char name[10];
 };
-*/
+
 bool
 MyClass_less_by_id(const MyClass &o1, const MyClass &o2) {
     return o1.id < o2.id;
@@ -103,7 +103,7 @@ MyClass_print(const MyClass *o) {
     printf("%s\n", o->name);
 }
 
-//Deque_DEFINE(MyClass)
+Deque_DEFINE(MyClass)
 
 /*
  * Test for int.
@@ -151,11 +151,12 @@ main() {
         assert(deq.back(&deq).id == 2);
 
         assert(deq.size(&deq) == 3);
+
         for (Deque_MyClass_Iterator it = deq.begin(&deq);
          !Deque_MyClass_Iterator_equal(it, deq.end(&deq)); it.inc(&it)) {
             MyClass_print(&it.deref(&it));
         }
-        
+
         // Multiple iterators?
         for (Deque_MyClass_Iterator it1 = deq.begin(&deq);
          !Deque_MyClass_Iterator_equal(it1, deq.end(&deq)); it1.inc(&it1)) {
@@ -169,19 +170,20 @@ main() {
                 }
             }
         }
+
         // Test decrement of end.
         {
             auto it = deq.end(&deq);
             it.dec(&it);
             assert(it.deref(&it).id == 2);
         }
-        
+
         // printf("Using at.\n");
+
         for (size_t i = 0; i < 3; i++) {
-            MyClass_print(
-                &deq.at(&deq, i));
+            MyClass_print(&deq.at(&deq, i));
         }
-        
+
         // Test that front(), back(), at(), and deref() are returning a reference.
         // Change via at().
         assert(deq.at(&deq, 0).id == 0);
@@ -204,9 +206,11 @@ main() {
             assert(deq.back(&deq).id == 2);
             assert(it.deref(&it).id == 2); // Verify with iterator also.
         }
+
         deq.clear(&deq);
 
         deq.dtor(&deq);
+
         // Test equality.  Two deques compare equal if they are of the same
         // length and all the elements compare equal.  It is undefined behavior
         // if the two deques were constructed with different comparison
@@ -234,9 +238,10 @@ main() {
             deq1.dtor(&deq1);
             deq2.dtor(&deq2);
         }
+
     }
+
     // Test that it can handle other types.  Tests are the same, more or less.
-    /*
     {
         Deque_int deq;
         Deque_int_ctor(&deq, int_less);
@@ -266,16 +271,19 @@ main() {
         assert(deq.back(&deq) == 2);
 
         assert(deq.size(&deq) == 3);
+
         for (Deque_int_Iterator it = deq.begin(&deq);
          !Deque_int_Iterator_equal(it, deq.end(&deq)); it.inc(&it)) {
             printf("%d\n", it.deref(&it));
         }
+
         // Test decrement.
         {
             auto it = deq.end(&deq);
             it.dec(&it);
             assert(it.deref(&it) == 2);
         }
+
         // printf("Using at.\n");
 
         for (size_t i = 0; i < 3; i++) {
@@ -286,10 +294,9 @@ main() {
 
         deq.dtor(&deq);
     }
-    */
+
     // Test equality.  It is undefined behavior if the two deques were constructed with different
     // comparison functions.
-    /*
     {
         Deque_int deq1, deq2;
         Deque_int_ctor(&deq1, int_less);
@@ -312,9 +319,8 @@ main() {
         deq1.dtor(&deq1);
         deq2.dtor(&deq2);
     }
-    */
+
     // Test performance.
-    /*
     {
         std::default_random_engine e;
         using rand = std::uniform_int_distribution<int>;
@@ -373,6 +379,7 @@ main() {
         printf("%d push_backs, %d push_fronts, %d pop_backs, %d pop_fronts, %d size\n", pb, pf, pob, pof, (int) deq.size(&deq));
         deq.dtor(&deq);
     }
+
     // Test random access performance
     {
        size_t sum = 0;
@@ -390,10 +397,9 @@ main() {
        printf("Sum of all integers between %d and %d calculated using a deque is %lu.\n", lo, hi, sum);
        deq.dtor(&deq);
     }
-    */
+
     // Test sort.
     // You must be able to work with the correct less-than function.
-    /*
     {
         Deque_int deq;
         Deque_int_ctor(&deq, int_less);
@@ -408,6 +414,8 @@ main() {
 
         deq.dtor(&deq);
     }
+
+
     // Sorting Test 2
     {
        Deque_int deq1;
@@ -446,7 +454,7 @@ main() {
       deq1.dtor(&deq1);
       deq2.dtor(&deq2);
     }
-    */
+
     // Test sort with different comparators.
     {
         Deque_MyClass sort_by_id, sorted_by_id;
@@ -461,47 +469,34 @@ main() {
 
         sort_by_id.push_back(&sort_by_id, MyClass{1, "Mary"});
         sort_by_id.push_back(&sort_by_id, MyClass{3, "Beth"});
-        sort_by_id.push_back(&sort_by_id, MyClass{8, "Kevin"});
-        sort_by_id.push_back(&sort_by_id, MyClass{7, "Kevin"});
         sort_by_id.push_back(&sort_by_id, MyClass{2, "Kevin"});
-        sort_by_id.push_back(&sort_by_id, MyClass{6, "Kevin"});
-        sort_by_id.push_back(&sort_by_id, MyClass{5, "Kevin"});
-        sort_by_id.push_back(&sort_by_id, MyClass{4, "Kevin"});
 
         sorted_by_id.push_back(&sorted_by_id, MyClass{1, "Bob"});
         sorted_by_id.push_back(&sorted_by_id, MyClass{2, "Alex"});
         sorted_by_id.push_back(&sorted_by_id, MyClass{3, "Sheldon"});
-        sorted_by_id.push_back(&sorted_by_id, MyClass{4, "Sheldon"});
-        sorted_by_id.push_back(&sorted_by_id, MyClass{5, "Sheldon"});
-        sorted_by_id.push_back(&sorted_by_id, MyClass{6, "Sheldon"});
-        sorted_by_id.push_back(&sorted_by_id, MyClass{7, "Sheldon"});
-        sorted_by_id.push_back(&sorted_by_id, MyClass{8, "Sheldon"});
 
         sort_by_name.push_back(&sort_by_name, MyClass{9, "Bob"});
         sort_by_name.push_back(&sort_by_name, MyClass{6, "Sheldon"});
         sort_by_name.push_back(&sort_by_name, MyClass{2, "Alex"});
-        sort_by_name.push_back(&sort_by_name, MyClass{2, "Albert"});
-        sort_by_name.push_back(&sort_by_name, MyClass{2, "Doug"});
-        sort_by_name.push_back(&sort_by_name, MyClass{2, "Robert"});
 
-        sorted_by_name.push_back(&sorted_by_name, MyClass{2, "Albert"});
         sorted_by_name.push_back(&sorted_by_name, MyClass{2, "Alex"});
         sorted_by_name.push_back(&sorted_by_name, MyClass{1, "Bob"});
-        sorted_by_name.push_back(&sorted_by_name, MyClass{2, "Doug"});
-        sorted_by_name.push_back(&sorted_by_name, MyClass{3, "Robert"});
-        sorted_by_name.push_back(&sorted_by_name, MyClass{2, "Sheldon"});
+        sorted_by_name.push_back(&sorted_by_name, MyClass{3, "Sheldon"});
+
         assert(!Deque_MyClass_equal(sort_by_id, sorted_by_id));
         sort_by_id.sort(&sort_by_id, sort_by_id.begin(&sort_by_id), sort_by_id.end(&sort_by_id));
         assert(Deque_MyClass_equal(sort_by_id, sorted_by_id));
+
         assert(!Deque_MyClass_equal(sort_by_name, sorted_by_name));
         sort_by_name.sort(&sort_by_name, sort_by_name.begin(&sort_by_name), sort_by_name.end(&sort_by_name));
         assert(Deque_MyClass_equal(sort_by_name, sorted_by_name));
+
         sort_by_id.dtor(&sort_by_id);
         sorted_by_id.dtor(&sorted_by_id);
         sort_by_name.dtor(&sort_by_name);
         sorted_by_name.dtor(&sorted_by_name);
-        
     }
+
     // Performance testing for sorting
     {
       

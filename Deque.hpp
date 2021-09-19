@@ -3,11 +3,6 @@
 
 #include <string.h>
 
-struct MyClass {
-    int id;
-    char name[10];   
-};
-
 #define Deque_DEFINE(type)                                                  \
     struct Deque_##type; \
     struct Deque_##type##_Iterator { \
@@ -16,6 +11,7 @@ struct MyClass {
         type & (*deref)(Deque_##type##_Iterator *); \
         type * container; \
         size_t capacity; \
+        size_t position; \
         size_t idx; \
     }; \
     struct Deque_##type {                                                   \
@@ -33,6 +29,7 @@ struct MyClass {
         type & (*at)(Deque_##type *, size_t);                               \
         bool (*comp)(const type &, const type &); \
         void (*dtor)(Deque_##type *);                                       \
+        void (*sort)(Deque_##type *, Deque_##type##_Iterator, Deque_##type##_Iterator );\
         char type_name[6+sizeof(#type)];                                    \
         type * deque;                                                       \
         size_t first;                                                       \
@@ -43,10 +40,12 @@ struct MyClass {
     void Deque_##type##_Iterator_inc(Deque_##type##_Iterator * cl) { \
         if(cl->idx == cl->capacity - 1) cl->idx = 0; \
         else cl->idx++; \
+        cl->position++; \
     } \
     void Deque_##type##_Iterator_dec(Deque_##type##_Iterator * cl) { \
         if (cl->idx == 0) cl->idx = cl->capacity - 1; \
         else cl->idx--; \
+        cl->position--; \
     } \
     type & Deque_##type##_Iterator_deref(Deque_##type##_Iterator * cl) { \
         return cl->container[cl->idx]; \
@@ -64,6 +63,7 @@ struct MyClass {
         Deque_##type##_Iterator itr; \
         Deque_##type##_Iterator_ctor(&itr, cl->deque);  \
         itr.idx = cl->first; \
+        itr.position = 0; \
         itr.capacity = cl->capacity; \
         return itr; \
     } \
@@ -73,6 +73,7 @@ struct MyClass {
         if (cl->last == cl->capacity -1) itr.idx = 0; \
         else itr.idx = cl->last + 1; \
         itr.capacity = cl->capacity; \
+        itr.position = cl->size(cl); \
         return itr; \
     } \
     size_t Deque_##type##_size(Deque_##type * cl) {                         \
@@ -176,6 +177,38 @@ struct MyClass {
     void Deque_##type##_dtor(Deque_##type * cl) { \
         free(cl->deque); \
     } \
+    void Deque_##type##_sort(Deque_##type * cl, Deque_##type##_Iterator start, Deque_##type##_Iterator end) { \
+        std::default_random_engine e; \
+        using rand = std::uniform_int_distribution<size_t>; \
+        if(end.position != 0 && start.position < end.position - 1 ) { \
+            size_t r = rand(start.position, end.position - 1)(e); \
+            type temp = cl->at(cl, r); \
+            cl->at(cl, r) = cl->at(cl, end.position - 1); \
+            cl->at(cl, end.position - 1) = temp; \
+            type pivot = cl->at(cl, end.position - 1); \
+            size_t i = start.position; \
+            for (size_t j = start.position; j < end.position-1; j++) { \
+                if (cl->comp(cl->at(cl, j), pivot)) { \
+                    type temp = cl->at(cl, i); \
+                    cl->at(cl, i) = cl->at(cl, j); \
+                    cl->at(cl, j) = temp; \
+                    i++; \
+                } \
+            } \
+            temp = cl->at(cl, i); \
+            cl->at(cl, i) = cl->at(cl, end.position - 1); \
+            cl->at(cl, end.position - 1) = temp; \
+            auto low_end = start; \
+            auto high_start = start; \
+            while (low_end.position != i) { \
+                low_end.inc(&low_end); \
+                high_start.inc(&high_start); \
+            } \
+            high_start.inc(&high_start); \
+            cl->sort(cl, start, low_end); \
+            cl->sort(cl, high_start, end); \
+        }  \
+    } \
     void Deque_##type##_ctor(Deque_##type * cl, bool (*comp)(const type &, const type &)) { \
         cl->capacity = 8; \
         cl->size = Deque_##type##_size; \
@@ -192,6 +225,7 @@ struct MyClass {
         cl->begin = Deque_##type##_begin; \
         cl->end = Deque_##type##_end; \
         cl->comp = comp; \
+        cl->sort = Deque_##type##_sort; \
         strcpy(cl->type_name, "Deque_" #type); \
         cl->deque = (type *) malloc(sizeof(type) * 8); \
         cl->first = 0; \
@@ -212,5 +246,4 @@ struct MyClass {
         return true; \
     } 
     
-Deque_DEFINE(MyClass) 
 #endif
