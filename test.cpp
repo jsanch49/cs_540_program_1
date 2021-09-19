@@ -12,7 +12,7 @@
 #include <string.h>
 #include <algorithm>
 #include <typeinfo>
-#include "Deque_cpp.hpp"
+#include "Deque.hpp"
 
 // May assume memcpy()-able.
 // May assume = operator.
@@ -461,35 +461,47 @@ main() {
 
         sort_by_id.push_back(&sort_by_id, MyClass{1, "Mary"});
         sort_by_id.push_back(&sort_by_id, MyClass{3, "Beth"});
+        sort_by_id.push_back(&sort_by_id, MyClass{8, "Kevin"});
+        sort_by_id.push_back(&sort_by_id, MyClass{7, "Kevin"});
         sort_by_id.push_back(&sort_by_id, MyClass{2, "Kevin"});
+        sort_by_id.push_back(&sort_by_id, MyClass{6, "Kevin"});
+        sort_by_id.push_back(&sort_by_id, MyClass{5, "Kevin"});
+        sort_by_id.push_back(&sort_by_id, MyClass{4, "Kevin"});
 
         sorted_by_id.push_back(&sorted_by_id, MyClass{1, "Bob"});
         sorted_by_id.push_back(&sorted_by_id, MyClass{2, "Alex"});
         sorted_by_id.push_back(&sorted_by_id, MyClass{3, "Sheldon"});
+        sorted_by_id.push_back(&sorted_by_id, MyClass{4, "Sheldon"});
+        sorted_by_id.push_back(&sorted_by_id, MyClass{5, "Sheldon"});
+        sorted_by_id.push_back(&sorted_by_id, MyClass{6, "Sheldon"});
+        sorted_by_id.push_back(&sorted_by_id, MyClass{7, "Sheldon"});
+        sorted_by_id.push_back(&sorted_by_id, MyClass{8, "Sheldon"});
 
         sort_by_name.push_back(&sort_by_name, MyClass{9, "Bob"});
         sort_by_name.push_back(&sort_by_name, MyClass{6, "Sheldon"});
         sort_by_name.push_back(&sort_by_name, MyClass{2, "Alex"});
+        sort_by_name.push_back(&sort_by_name, MyClass{2, "Albert"});
+        sort_by_name.push_back(&sort_by_name, MyClass{2, "Doug"});
+        sort_by_name.push_back(&sort_by_name, MyClass{2, "Robert"});
 
+        sorted_by_name.push_back(&sorted_by_name, MyClass{2, "Albert"});
         sorted_by_name.push_back(&sorted_by_name, MyClass{2, "Alex"});
         sorted_by_name.push_back(&sorted_by_name, MyClass{1, "Bob"});
-        sorted_by_name.push_back(&sorted_by_name, MyClass{3, "Sheldon"});
-        // uncomment next
-        /*
+        sorted_by_name.push_back(&sorted_by_name, MyClass{2, "Doug"});
+        sorted_by_name.push_back(&sorted_by_name, MyClass{3, "Robert"});
+        sorted_by_name.push_back(&sorted_by_name, MyClass{2, "Sheldon"});
         assert(!Deque_MyClass_equal(sort_by_id, sorted_by_id));
         sort_by_id.sort(&sort_by_id, sort_by_id.begin(&sort_by_id), sort_by_id.end(&sort_by_id));
         assert(Deque_MyClass_equal(sort_by_id, sorted_by_id));
-
         assert(!Deque_MyClass_equal(sort_by_name, sorted_by_name));
         sort_by_name.sort(&sort_by_name, sort_by_name.begin(&sort_by_name), sort_by_name.end(&sort_by_name));
         assert(Deque_MyClass_equal(sort_by_name, sorted_by_name));
-        */
         sort_by_id.dtor(&sort_by_id);
         sorted_by_id.dtor(&sorted_by_id);
         sort_by_name.dtor(&sort_by_name);
         sorted_by_name.dtor(&sorted_by_name);
+        
     }
-    /*
     // Performance testing for sorting
     {
       
@@ -518,7 +530,6 @@ main() {
        deq1.dtor(&deq1);
 
     }
-    */
 
    // Print allocation info
    printf("%ld allocations totalling %ld bytes\n", alloc_call_count, total_bytes_allocated);
